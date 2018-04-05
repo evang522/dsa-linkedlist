@@ -208,7 +208,7 @@ const showListSize = linkedList => {
     counter++;
   }
 
-  console.log(counter);
+  return counter;
 };
 
 
@@ -259,7 +259,7 @@ const findLast = list => {
     currentNode = currentNode.next;
   }
 
-  console.log(currentNode.value);
+  return currentNode.value;
 };
 
 
@@ -280,30 +280,68 @@ function WhatDoesThisProgramDo(lst){
   }
 }
 
-//Reverse a List
+// Reverse a List
 
-// const reverseList = list => {
-
-//   let newList = new LinkedList();
-
-//   let currentNode = list.head;
-//   while (currentNode !== null) {
-//     newList.insertFirst(currentNode.value);
-//     currentNode = currentNode.next;
-//   }
-
-//   return newList;
-// };
-
-const reverseList = list => {
+const reverseList = (list, oldHead=null) => {
   if (list.head.next === null) {
+    console.log('base case');
+    list.head.next = oldHead;
     return list.head;
   }
 
-  return new _Node(list.value, list.next);
-
-
+  let prevHead = list.head;
+  list.head = list.head.next;
+  prevHead.next = oldHead;
+  return reverseList(list,prevHead);
 };
+
+// Third from the End
+
+const findThirdFromEnd = list => {
+  if (!list.head) {
+    return console.log('This List has no items');
+  }
+
+  let listLength = showListSize(list);
+
+  if (listLength <= 2) {
+    return console.log('This list doesn\'t even have that many items');
+  }
+  let counter = 0;
+  let targetIndex = listLength-3;
+
+  let currentNode = list.head;
+  while (counter < targetIndex && currentNode !== null) {
+    currentNode = currentNode.next;
+    counter++;
+  }
+
+  console.log(currentNode.value);
+};
+
+
+const middleOfList = list => {
+  let counterNode = list.head;
+  let fastCounter = list.head;
+
+  if (showListSize(list)%2 === 0) {
+    while (fastCounter.next.next !== null) {
+      counterNode = counterNode.next;
+      // console.log(fastCounter.next.next);
+      fastCounter = fastCounter.next.next ? fastCounter.next.next : fastCounter.next;
+    }
+  }
+  if (!showListSize(list)%2 === 0) {
+    while (fastCounter.next !== null) {
+      counterNode = counterNode.next;
+      // console.log(fastCounter.next.next);
+      fastCounter = fastCounter.next.next ? fastCounter.next.next : fastCounter.next;
+    }
+  }
+
+  return counterNode.value;
+};
+
 
 
 
@@ -315,19 +353,17 @@ const reverseList = list => {
 
 function main() {
   const SLL = new LinkedList();
-  SLL.insertLast('Apollo');
+
   SLL.insertLast('Starbuck');
   SLL.insertLast('Boomer');
   SLL.insertLast('Helo');
   SLL.insertLast('Husker');
-  SLL.insertLast('Starbuck');
+  SLL.insertLast('Husker');
   SLL.insertLast('Tauhida');
-  SLL.insertAfter('hello!!!','Apollo');
-  SLL.insertAt(3,'Parsnips');
-  SLL.remove('Tauhida');
 
-  console.log('BREAKER-------------');
-  displayList(SLL);
+
+
+  // displayList(SLL);
   // showListSize(SLL);
   // // isEmpty(SLL);
   // // findPrevious(SLL, 'Boomer');
@@ -335,7 +371,14 @@ function main() {
   // console.log('BREAKER-------------');
   // WhatDoesThisProgramDo(SLL);
   // displayList(SLL);
-  console.log(reverseList(SLL));
+  // reverseList(SLL);
+  // displayList(SLL);
+
+  displayList(SLL);
+  console.log(showListSize(SLL));
+  // findThirdFromEnd(SLL);
+  console.log(middleOfList(SLL));
 }
 
 main();
+
