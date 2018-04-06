@@ -20,15 +20,20 @@ class DoublyLinkedList {
 
   insertFirst (value) {
     if (this.head === null) {
-      return this.head = new _Node(value, null, this.head);
+      return this.head = new _Node(value, null, null);
     }
 
     let holderNode = new _Node(value,null,this.head);
     this.head = holderNode;
+    this.head.next.prev = this.head;
 
   }
 
   insertLast (value) {
+    if (!this.head) {
+      return this.insertFirst(value);
+    }
+
     if (this.head.next === null) {
       return this.insertFirst(value);
     }
@@ -40,7 +45,7 @@ class DoublyLinkedList {
       currentNode = currentNode.next;
     }
 
-    currentNode.next = new _Node(value,previousNode, null);    
+    currentNode.next = new _Node(value,currentNode, null);    
   }
 
   insertBefore(nextValue, value) {
@@ -206,7 +211,11 @@ const displayList = list => {
   let currentNode = list.head;
 
   while (currentNode !== null) {
-    console.log(currentNode.value);
+    console.log({
+      previousValue:currentNode.prev ? currentNode.prev.value : null,
+      currentValue:currentNode.value,
+      nextNodeValue: currentNode.next ? currentNode.next.value : null
+    });
     currentNode = currentNode.next;
   }
 
@@ -221,9 +230,8 @@ function main() {
   DLL.insertFirst('Hello2');
   DLL.insertLast('this should be last');
   DLL.insertLast('Hello3');
-  // DLL.insertBefore('hihi','Hello3');
   DLL.insertAfter('Hello2','Karate');
-  DLL.insertAt(5, 'pooooop');
+  DLL.insertAt(4, 'pooooop');
   displayList(DLL);
   console.log(DLL.find('pooooop'));
 
