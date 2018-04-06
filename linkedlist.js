@@ -243,8 +243,6 @@ const findPrevious = (list, value=null) => {
   }
 
   console.log(previousNode.value);
-   
-
 };
 
 
@@ -295,6 +293,8 @@ const reverseList = (list, oldHead=null) => {
   return reverseList(list,prevHead);
 };
 
+
+
 // Third from the End
 
 const findThirdFromEnd = list => {
@@ -341,7 +341,6 @@ const middleOfList = list => {
 
   return counterNode.value;
 };
-
 
 
 
